@@ -1,5 +1,11 @@
 ### It package is one wrapper to "go.mau.fi/whatsmeow/util/log" and implement new options 
 
+### Before of use
+* Install module:
+  ```
+	go get -u "github.com/ecsavigne/ecs_ree-logecs@latest"
+  ```
+
 # Example basic of use
 ```
 package main
