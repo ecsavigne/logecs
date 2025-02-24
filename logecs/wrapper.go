@@ -1,4 +1,4 @@
-package log
+package logecs
 
 import (
 	"fmt"
