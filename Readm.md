@@ -1,4 +1,4 @@
-It package is one wrapper to "go.mau.fi/whatsmeow/util/log" and implement new options 
+### It package is one wrapper to "go.mau.fi/whatsmeow/util/log" and implement new options 
 
 # Example basic of use
 ```
