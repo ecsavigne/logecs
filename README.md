@@ -1,4 +1,4 @@
-### It package is one wrapper to "go.mau.fi/whatsmeow/util/log" and implement new options 
+### It package is down licence Mozilla Public License Version 2.0. It's by print log interactive
 
 ### Before of use
 * Install module:
