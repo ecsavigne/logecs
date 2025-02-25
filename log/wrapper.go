@@ -8,21 +8,20 @@
 // file: main.go
 // Code:
 // package main
-
+//
 // import logecs "github.com/ecsavigne/logecs/log"
-
-// 	func main() {
-// 		// Logecs := log.NewLoggerEcs("Modulo", "debug", true, false)
-// 		Logecs := logecs.NewLoggerEcs(logecs.EcsLogger{
-// 			Mod: "ModuleName", Color: true,
-// 			Path: "output.log", OutPut: true,
-// 		})
-// 		Logecs.Debugf("Modulo iniciado")
-// 		Logecs.Warnf("Warning %s", "Modulo iniciado")
-// 		Logecs.Errorf("Error %s", "Modulo iniciado")
-// 		Logecs.Infof("Info %s", "Modulo iniciado")
-// 	}
-
+//
+//	func main() {
+//		// Logecs := log.NewLoggerEcs("Modulo", "debug", true, false)
+//		Logecs := logecs.NewLoggerEcs(logecs.EcsLogger{
+//			Mod: "ModuleName", Color: true,
+//			Path: "output.log", OutPut: true,
+//		})
+//		Logecs.Debugf("Modulo iniciado")
+//		Logecs.Warnf("Warning %s", "Modulo iniciado")
+//		Logecs.Errorf("Error %s", "Modulo iniciado")
+//		Logecs.Infof("Info %s", "Modulo iniciado")
+//	}
 package log
 
 import (
@@ -37,42 +36,34 @@ import (
 type Logger interface {
 	// outputs a log message with the given level off info and message.
 	// example:
-
 	// 	Logecs := logecs.NewLoggerEcs(logecs.EcsLogger{
 	// 			Mod: "ModuleName", Color: true,
 	// 			Path: "output.log", OutPut: true,
 	// 		})
-
 	// Logecs.Infof("Info %s", "Module initilized")
 	Warnf(msg string, args ...interface{})
 	// outputs a log message with the given level off error and message.
 	// example:
-
 	// 	Logecs := logecs.NewLoggerEcs(logecs.EcsLogger{
 	// 			Mod: "ModuleName", Color: true,
 	// 			Path: "output.log", OutPut: true,
 	// 		})
-
 	// Logecs.Errorf("Error %s", "Module initilized")
 	Errorf(msg string, args ...interface{})
 	// outputs a log message with the given level off info and message.
 	// example:
-
 	// 	Logecs := logecs.NewLoggerEcs(logecs.EcsLogger{
 	// 			Mod: "ModuleName", Color: true,
 	// 			Path: "output.log", OutPut: true,
 	// 		})
-
 	// Logecs.Debugf("Debug %s", "Module initilized")
 	Infof(msg string, args ...interface{})
 	// outputs a log message with the given level off info and message.
 	// example:
-
 	// 	Logecs := logecs.NewLoggerEcs(logecs.EcsLogger{
 	// 			Mod: "ModuleName", Color: true,
 	// 			Path: "output.log", OutPut: true,
 	// 		})
-
 	// Logecs.Debugf("Debug %s", "Module initilized")
 	Debugf(msg string, args ...interface{})
 	// func (s *EcsLogger) Sub(mod string) Logger

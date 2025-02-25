@@ -1,10 +1,10 @@
 package main
 
-import logecs "github.com/ecsavigne/logecs/log"
+import "github.com/ecsavigne/logecs/log"
 
 func main() {
 	// Logecs := log.NewLoggerEcs("Modulo", "debug", true, false)
-	Logecs := logecs.NewLoggerEcs(logecs.EcsLogger{
+	Logecs := log.NewLoggerEcs(log.EcsLogger{
 		Mod: "ModuleName", Color: true,
 		Path: "output.log", OutPut: true,
 	})
