@@ -1,6 +1,6 @@
 package main
 
-import "github.com/ecsavigne/ecs_ree-logecs/logecs"
+import logecs "github.com/ecsavigne/logecs/log"
 
 func main() {
 	// Logecs := log.NewLoggerEcs("Modulo", "debug", true, false)

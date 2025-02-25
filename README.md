@@ -3,18 +3,18 @@
 ### Before of use
 * Install module:
   ```
-	go get -u "github.com/ecsavigne/ecs_ree-logecs@latest"
+	go get -u "github.com/ecsavigne/logecs@latest"
   ```
 
 # Example basic of use
 ```
 package main
 
-import "logecs/log"
+import logecs "github.com/ecsavigne/logecs/log"
 
 func main() {
 	// Logecs := log.NewLoggerEcs("Modulo", "debug", true, false)
-	Logecs := log.NewLoggerEcs(log.EcsLogger{
+	Logecs := logecs.NewLoggerEcs(logecs.EcsLogger{
 		Mod: "ModuleName", Color: true,
 		Path: "output.log", OutPut: true,
 	})
