@@ -33,6 +33,7 @@ import (
 	"time"
 )
 
+// Logger is a simple Logger implementation that outputs to stdout.
 type Logger interface {
 	// outputs a log message with the given level off info and message.
 	// example:
