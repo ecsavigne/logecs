@@ -1,26 +1,22 @@
-// Package logecs is a wrapper for the standard log package and .
-// Installation:
-//  1. You can install the package by running the following command in your terminal in folder of project go.mod:
-//  2. go get -u "github.com/ecsavigne/logecs" or go get github.com/ecsavigne/logecs@latest
-//  3. go mod vendor
-
-// Usage:
-// file: main.go
-// Code:
+// Package logecs is a wrapper for the standard log package, providing enhanced
+// structured logging capabilities with support for colors, output to files,
+// and different log levels.
+//
+// Example usage:
+//
 // package main
 //
 // import logecs "github.com/ecsavigne/logecs/log"
 //
 //	func main() {
-//		// Logecs := log.NewLoggerEcs("Modulo", "debug", true, false)
-//		Logecs := logecs.NewLoggerEcs(logecs.EcsLogger{
-//			Mod: "ModuleName", Color: true,
-//			Path: "output.log", OutPut: true,
-//		})
-//		Logecs.Debugf("Modulo iniciado")
-//		Logecs.Warnf("Warning %s", "Modulo iniciado")
-//		Logecs.Errorf("Error %s", "Modulo iniciado")
-//		Logecs.Infof("Info %s", "Modulo iniciado")
+//	    Logecs := logecs.NewLoggerEcs(logecs.EcsLogger{
+//	        Mod: "ModuleName", Color: true,
+//	        Path: "output.log", OutPut: true,
+//	    })
+//	    Logecs.Debugf("Modulo iniciado")
+//	    Logecs.Warnf("Warning %s", "Modulo iniciado")
+//	    Logecs.Errorf("Error %s", "Modulo iniciado")
+//	    Logecs.Infof("Info %s", "Modulo iniciado")
 //	}
 package log
 
