@@ -44,7 +44,6 @@ type Logger interface {
 	// 		})
 
 	// Logecs.Infof("Info %s", "Module initilized")
-	// })
 	Warnf(msg string, args ...interface{})
 	// outputs a log message with the given level off error and message.
 	// example:
@@ -65,7 +64,6 @@ type Logger interface {
 	// 		})
 
 	// Logecs.Debugf("Debug %s", "Module initilized")
-	// })
 	Infof(msg string, args ...interface{})
 	// outputs a log message with the given level off info and message.
 	// example:
@@ -76,7 +74,6 @@ type Logger interface {
 	// 		})
 
 	// Logecs.Debugf("Debug %s", "Module initilized")
-	// })
 	Debugf(msg string, args ...interface{})
 	// func (s *EcsLogger) Sub(mod string) Logger
 	Sub(module string) Logger
