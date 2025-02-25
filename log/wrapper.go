@@ -40,7 +40,7 @@ type Logger interface {
 	// 			Mod: "ModuleName", Color: true,
 	// 			Path: "output.log", OutPut: true,
 	// 		})
-	// Logecs.Infof("Info %s", "Module initilized")
+	// Logecs.Warnf("Warning %s", "Module initilized")
 	Warnf(msg string, args ...interface{})
 	// outputs a log message with the given level off error and message.
 	// example:
@@ -56,7 +56,7 @@ type Logger interface {
 	// 			Mod: "ModuleName", Color: true,
 	// 			Path: "output.log", OutPut: true,
 	// 		})
-	// Logecs.Debugf("Debug %s", "Module initilized")
+	// Logecs.Infof("Info %s", "Module initilized")
 	Infof(msg string, args ...interface{})
 	// outputs a log message with the given level off info and message.
 	// example:
