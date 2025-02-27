@@ -10,6 +10,6 @@ func main() {
 	})
 	Logecs.Debugf("Modulo iniciado")
 	Logecs.Warnf("Warning %s", "Modulo iniciado")
-	Logecs.Errorf("Error %s", "Modulo iniciado")
-	Logecs.Infof("Info %s", "Modulo iniciado")
+	Logecs.Errorf("Error %s", "Modulo iniciado df sdf ")
+	Logecs.Infof("Info %s", "Modulo iniciado edfdfd dfd ")
 }
