@@ -24,6 +24,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path"
+	"runtime"
 	"strings"
 	"time"
 )
@@ -72,19 +74,29 @@ func (s *EcsLogger) outputf(level, msg string, args ...interface{}) {
 		colorStart = colors[level]
 		colorReset = "\033[0m"
 	}
+
+	tracert := ""
+	_, file, line, ok := runtime.Caller(2) // Aumenta el número si sigue mostrando `wrapper.go`
+	if ok {
+		dir, file := path.Split(file)
+		file = path.Join(path.Base(dir), file)
+		tracert = fmt.Sprintf(" - %s:%d", file, line)
+	}
+
+	layout := "2006/01/02 15:04:05"
 	if s.Mod == "" {
 		if s.logger != nil {
-			s.logger.Printf("%s%s [%s] %s%s\n", time.Now().Format("15:04:05.000"), colorStart, level, fmt.Sprintf(msg, args...), colorReset)
+			s.logger.Printf("[ %s%s ]%s [%s] %s%s\n", time.Now().Format(layout), tracert, colorStart, level, fmt.Sprintf(msg, args...), colorReset)
 		}
 		if !s.NotStandardPut {
-			fmt.Printf("%s%s [%s] %s%s\n", time.Now().Format("15:04:05.000"), colorStart, level, fmt.Sprintf(msg, args...), colorReset)
+			fmt.Printf("[ %s%s ]%s [%s] %s%s\n", time.Now().Format(layout), tracert, colorStart, level, fmt.Sprintf(msg, args...), colorReset)
 		}
 	} else {
 		if s.logger != nil {
-			s.logger.Printf("%s%s [%s %s] %s%s\n", time.Now().Format("15:04:05.000"), colorStart, s.Mod, level, fmt.Sprintf(msg, args...), colorReset)
+			s.logger.Printf("[ %s%s ]%s [%s %s] %s%s\n", time.Now().Format(layout), tracert, colorStart, s.Mod, level, fmt.Sprintf(msg, args...), colorReset)
 		}
 		if !s.NotStandardPut {
-			fmt.Printf("%s%s [%s %s] %s%s\n", time.Now().Format("15:04:05.000"), colorStart, s.Mod, level, fmt.Sprintf(msg, args...), colorReset)
+			fmt.Printf("[ %s%s ]%s [%s %s] %s%s\n", time.Now().Format(layout), tracert, colorStart, s.Mod, level, fmt.Sprintf(msg, args...), colorReset)
 		}
 	}
 }
@@ -139,9 +151,7 @@ func (s *EcsLogger) Sub(mod string) Logger {
 }
 
 // Stdout is a simple Logger implementation that outputs to stdout. The module name given is included in log lines.
-//
 // minLevel specifies the minimum log level to output. An empty string will output all logs.
-//
 // If color is true, then info, warn and error logs will be colored cyan, yellow and red respectively using ANSI color escape codes.
 func stdout(module string, minLevel, path string, color, output bool) Logger {
 	var (
@@ -154,7 +164,7 @@ func stdout(module string, minLevel, path string, color, output bool) Logger {
 		if err != nil {
 			panic(fmt.Sprintln("Error opening file:", err))
 		}
-		logger = log.New(fileLog, "", log.Ldate|log.Ltime|log.Lshortfile|log.Llongfile)
+		logger = log.New(fileLog, "", 0)
 	}
 
 	return &EcsLogger{
