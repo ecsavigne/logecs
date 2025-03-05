@@ -80,23 +80,23 @@ func (s *EcsLogger) outputf(level, msg string, args ...interface{}) {
 	if ok {
 		dir, file := path.Split(file)
 		file = path.Join(path.Base(dir), file)
-		tracert = fmt.Sprintf(" - %s:%d", file, line)
+		tracert = fmt.Sprintf(" %s:%d", file, line)
 	}
 
 	layout := "2006/01/02 15:04:05"
 	if s.Mod == "" {
 		if s.logger != nil {
-			s.logger.Printf("[ %s%s ]%s [%s] %s%s\n", time.Now().Format(layout), tracert, colorStart, level, fmt.Sprintf(msg, args...), colorReset)
+			s.logger.Printf("%s%s%s [%s] %s%s\n", time.Now().Format(layout), tracert, colorStart, level, fmt.Sprintf(msg, args...), colorReset)
 		}
 		if !s.NotStandardPut {
-			fmt.Printf("[ %s%s ]%s [%s] %s%s\n", time.Now().Format(layout), tracert, colorStart, level, fmt.Sprintf(msg, args...), colorReset)
+			fmt.Printf("%s%s%s [%s] %s%s\n", time.Now().Format(layout), tracert, colorStart, level, fmt.Sprintf(msg, args...), colorReset)
 		}
 	} else {
 		if s.logger != nil {
-			s.logger.Printf("[ %s%s ]%s [%s %s] %s%s\n", time.Now().Format(layout), tracert, colorStart, s.Mod, level, fmt.Sprintf(msg, args...), colorReset)
+			s.logger.Printf("%s%s%s [%s %s] %s%s\n", time.Now().Format(layout), tracert, colorStart, s.Mod, level, fmt.Sprintf(msg, args...), colorReset)
 		}
 		if !s.NotStandardPut {
-			fmt.Printf("[ %s%s ]%s [%s %s] %s%s\n", time.Now().Format(layout), tracert, colorStart, s.Mod, level, fmt.Sprintf(msg, args...), colorReset)
+			fmt.Printf("%s%s%s [%s %s] %s%s\n", time.Now().Format(layout), tracert, colorStart, s.Mod, level, fmt.Sprintf(msg, args...), colorReset)
 		}
 	}
 }
@@ -153,7 +153,7 @@ func (s *EcsLogger) Sub(mod string) Logger {
 // Stdout is a simple Logger implementation that outputs to stdout. The module name given is included in log lines.
 // minLevel specifies the minimum log level to output. An empty string will output all logs.
 // If color is true, then info, warn and error logs will be colored cyan, yellow and red respectively using ANSI color escape codes.
-func stdout(module string, minLevel, path string, color, output bool) Logger {
+func stdout(module string, minLevel, path string, color, output, NotStandardPut bool) Logger {
 	var (
 		fileLog *os.File
 		err     error
@@ -168,16 +168,17 @@ func stdout(module string, minLevel, path string, color, output bool) Logger {
 	}
 
 	return &EcsLogger{
-		Mod:    module,
-		Color:  color,
-		OutPut: output,
-		Path:   path,
-		min:    levelToInt[strings.ToUpper(minLevel)],
-		logger: logger,
+		Mod:            module,
+		Color:          color,
+		OutPut:         output,
+		NotStandardPut: NotStandardPut,
+		Path:           path,
+		min:            levelToInt[strings.ToUpper(minLevel)],
+		logger:         logger,
 	}
 }
 
 // NewLoggerEcs returns a Logger that outputs to stdout.
 func NewLoggerEcs(l EcsLogger) Logger {
-	return stdout(l.Mod, l.LevelMin, l.Path, l.Color, l.OutPut)
+	return stdout(l.Mod, l.LevelMin, l.Path, l.Color, l.OutPut, l.NotStandardPut)
 }

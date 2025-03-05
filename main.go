@@ -7,6 +7,7 @@ func main() {
 	Logecs := log.NewLoggerEcs(log.EcsLogger{
 		Mod: "ModuleName", Color: true,
 		Path: "output.log", OutPut: true,
+		NotStandardPut: false,
 	})
 	Logecs.Debugf("Modulo iniciado")
 	Logecs.Warnf("Warning %s", "Modulo iniciado")
