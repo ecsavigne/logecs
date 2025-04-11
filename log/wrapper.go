@@ -86,17 +86,17 @@ func (s *EcsLogger) outputf(level, msg string, args ...interface{}) {
 	layout := "2006/01/02 15:04:05"
 	if s.Mod == "" {
 		if s.logger != nil {
-			s.logger.Printf("%s%s%s [%s] %s%s", time.Now().Format(layout), tracert, colorStart, level, fmt.Sprintf(msg, args...), colorReset)
+			s.logger.Printf("%s%s%s [%s] %s%s", time.Now().Format(layout), tracert, colorStart, level, colorReset, fmt.Sprintf(msg, args...))
 		}
 		if !s.NotStandardPut {
-			fmt.Printf("%s%s%s [%s] %s%s", time.Now().Format(layout), tracert, colorStart, level, fmt.Sprintf(msg, args...), colorReset)
+			fmt.Printf("%s%s%s [%s] %s%s", time.Now().Format(layout), tracert, colorStart, level, colorReset, fmt.Sprintf(msg, args...))
 		}
 	} else {
 		if s.logger != nil {
-			s.logger.Printf("%s%s%s [%s %s] %s%s", time.Now().Format(layout), tracert, colorStart, s.Mod, level, fmt.Sprintf(msg, args...), colorReset)
+			s.logger.Printf("%s%s%s [%s %s] %s%s", time.Now().Format(layout), tracert, colorStart, s.Mod, level, colorReset, fmt.Sprintf(msg, args...))
 		}
 		if !s.NotStandardPut {
-			fmt.Printf("%s%s%s [%s %s] %s%s", time.Now().Format(layout), tracert, colorStart, s.Mod, level, fmt.Sprintf(msg, args...), colorReset)
+			fmt.Printf("%s%s%s [%s %s] %s%s", time.Now().Format(layout), tracert, colorStart, s.Mod, level, colorReset, fmt.Sprintf(msg, args...))
 		}
 	}
 }
