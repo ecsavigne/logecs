@@ -32,10 +32,47 @@ import (
 
 // Logger is a simple interface Logger implementation that outputs to stdout.
 type Logger interface {
-	Warnf(msg string, args ...interface{})
-	Errorf(msg string, args ...interface{})
-	Infof(msg string, args ...interface{})
-	Debugf(msg string, args ...interface{})
+	// outputs a log message with the given level off info and message.
+	// example:
+	//
+	//	Logecs := logecs.NewLoggerEcs(logecs.EcsLogger{
+	//			Mod: "ModuleName", Color: true,
+	//			Path: "output.log", OutPut: true,
+	//		})
+	//
+	// Logecs.Warnf("Warning %s", "Module initilized")
+	Warnf(msg string, args ...any)
+	// outputs a log message with the given level off error and message.
+	// example:
+	//
+	//	Logecs := logecs.NewLoggerEcs(logecs.EcsLogger{
+	//			Mod: "ModuleName", Color: true,
+	//			Path: "output.log", OutPut: true,
+	//		})
+	//
+	// Logecs.Errorf("Error %s", "Module initilized")
+	Errorf(msg string, args ...any)
+	// outputs a log message with the given level off info and message.
+	// example:
+	//
+	//	Logecs := logecs.NewLoggerEcs(logecs.EcsLogger{
+	//			Mod: "ModuleName", Color: true,
+	//			Path: "output.log", OutPut: true,
+	//		})
+	//
+	// Logecs.Infof("Info %s", "Module initilized")
+	Infof(msg string, args ...any)
+	// outputs a log message with the given level off info and message.
+	// example:
+	//
+	//	Logecs := logecs.NewLoggerEcs(logecs.EcsLogger{
+	//			Mod: "ModuleName", Color: true,
+	//			Path: "output.log", OutPut: true,
+	//		})
+	//
+	// Logecs.Debugf("Debug %s", "Module initilized")
+	Debugf(msg string, args ...any)
+	// func (s *EcsLogger) Sub(mod string) Logger
 	Sub(module string) Logger
 }
 
@@ -65,7 +102,7 @@ var levelToInt = map[string]int{
 	"ERROR": 3,
 }
 
-func (s *EcsLogger) outputf(level, msg string, args ...interface{}) {
+func (s *EcsLogger) outputf(level, msg string, args ...any) {
 	if levelToInt[level] < s.min {
 		return
 	}
@@ -101,51 +138,14 @@ func (s *EcsLogger) outputf(level, msg string, args ...interface{}) {
 	}
 }
 
-// outputs a log message with the given level off error and message.
-// example:
-//
-//	Logecs := logecs.NewLoggerEcs(logecs.EcsLogger{
-//			Mod: "ModuleName", Color: true,
-//			Path: "output.log", OutPut: true,
-//		})
-//
-// Logecs.Errorf("Error %s", "Module initilized")
-func (s *EcsLogger) Errorf(msg string, args ...interface{}) { s.outputf("ERROR", msg, args...) }
+func (s *EcsLogger) Errorf(msg string, args ...any) { s.outputf("ERROR", msg, args...) }
 
-// outputs a log message with the given level off info and message.
-// example:
-//
-//	Logecs := logecs.NewLoggerEcs(logecs.EcsLogger{
-//			Mod: "ModuleName", Color: true,
-//			Path: "output.log", OutPut: true,
-//		})
-//
-// Logecs.Warnf("Warning %s", "Module initilized")
-func (s *EcsLogger) Warnf(msg string, args ...interface{}) { s.outputf("WARN", msg, args...) }
+func (s *EcsLogger) Warnf(msg string, args ...any) { s.outputf("WARN", msg, args...) }
 
-// outputs a log message with the given level off info and message.
-// example:
-//
-//	Logecs := logecs.NewLoggerEcs(logecs.EcsLogger{
-//			Mod: "ModuleName", Color: true,
-//			Path: "output.log", OutPut: true,
-//		})
-//
-// Logecs.Infof("Info %s", "Module initilized")
-func (s *EcsLogger) Infof(msg string, args ...interface{}) { s.outputf("INFO", msg, args...) }
+func (s *EcsLogger) Infof(msg string, args ...any) { s.outputf("INFO", msg, args...) }
 
-// outputs a log message with the given level off info and message.
-// example:
-//
-//	Logecs := logecs.NewLoggerEcs(logecs.EcsLogger{
-//			Mod: "ModuleName", Color: true,
-//			Path: "output.log", OutPut: true,
-//		})
-//
-// Logecs.Debugf("Debug %s", "Module initilized")
-func (s *EcsLogger) Debugf(msg string, args ...interface{}) { s.outputf("DEBUG", msg, args...) }
+func (s *EcsLogger) Debugf(msg string, args ...any) { s.outputf("DEBUG", msg, args...) }
 
-// func (s *EcsLogger) Sub(mod string) Logger
 func (s *EcsLogger) Sub(mod string) Logger {
 	return &EcsLogger{Mod: fmt.Sprintf("%s/%s", s.Mod, mod), Color: s.Color, min: s.min, logger: s.logger, Path: s.Path, OutPut: s.OutPut}
 }
