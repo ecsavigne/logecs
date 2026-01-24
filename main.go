@@ -9,8 +9,27 @@ func main() {
 		Path: "output.log", OutPut: true,
 		NotStandardPut: false,
 	})
-	Logecs.Debugf("Modulo iniciado")
-	Logecs.Warnf("Warning %s", "Modulo iniciado")
-	Logecs.Errorf("Error %s", "Modulo iniciado df sdf ")
-	Logecs.Infof("Info %s", "Modulo iniciado edfdfd dfd ")
+	Logecs.Debugf("Modulo iniciado\n")
+	Logecs.Warnf("Warning %s", "Modulo iniciado\n")
+	Logecs.Errorf("Error %s", "Modulo iniciado df sdf \n")
+	Logecs.Infof("Info %s", "Modulo iniciado edfdfd dfd \n")
+
+	info := log.InfoLog{
+		Type: log.Debug,
+		// Sub:  "SubModulo",
+		Name: "test_name_logs",
+		Content: map[string]any{
+			"modulo": "Modulo",
+			"sub_modulo": map[string]any{
+				"SubModulo": "SubModulo",
+			},
+			"test":  1,
+			"test2": true,
+			"test3": 4.3,
+			"a_b1":  "annene",
+			"0_b1":  "llllll",
+		},
+	}
+
+	Logecs.Create(info)
 }

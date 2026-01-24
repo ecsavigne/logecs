@@ -23,9 +23,12 @@ package log
 import (
 	"fmt"
 	"log"
+	"maps"
 	"os"
 	"path"
 	"runtime"
+	"slices"
+	"sort"
 	"strings"
 	"time"
 )
@@ -74,6 +77,7 @@ type Logger interface {
 	Debugf(msg string, args ...any)
 	// func (s *EcsLogger) Sub(mod string) Logger
 	Sub(module string) Logger
+	Create(info InfoLog)
 }
 
 type EcsLogger struct {
@@ -147,7 +151,89 @@ func (s *EcsLogger) Infof(msg string, args ...any) { s.outputf("INFO", msg, args
 func (s *EcsLogger) Debugf(msg string, args ...any) { s.outputf("DEBUG", msg, args...) }
 
 func (s *EcsLogger) Sub(mod string) Logger {
+	if mod == "" {
+		return s
+	}
+
 	return &EcsLogger{Mod: fmt.Sprintf("%s/%s", s.Mod, mod), Color: s.Color, min: s.min, logger: s.logger, Path: s.Path, OutPut: s.OutPut}
+}
+
+type TYPE_LOG int
+
+const (
+	Unknown = iota
+	Info
+	Error
+	Warn
+	Debug
+)
+
+func (t TYPE_LOG) ENUM() string {
+	return []string{"Unknown", "Info", "Error", "Warn", "Debug"}[t]
+}
+
+// ej: event_service_logs {"tag": "value", .... "tagN": "valueN"}
+type InfoLog struct {
+	Type    TYPE_LOG // "Debug" | "Info" | "Warm" | "Error"
+	Sub     string
+	Name    string // Name of the log ej: "event_service_logs"
+	Content map[string]any
+}
+
+func content(info InfoLog) string {
+	cont := info.Content
+	str := &strings.Builder{}
+	str.WriteString(info.Name + " {")
+	count := 1
+	length := len(info.Content)
+
+	keys := slices.Collect(maps.Keys(info.Content))
+	sort.Strings(keys)
+
+	for _, k := range keys {
+		fmt.Fprintf(str, `"%s": `, k)
+
+		switch v := info.Content[k].(type) {
+		case string:
+			fmt.Fprintf(str, `"%s"`, v)
+		case int, int8, int16, int32, int64, uint, uint8, uint16, uint32, uint64:
+			fmt.Fprintf(str, `%d`, v)
+		case float64, float32:
+			fmt.Fprintf(str, `%f`, v)
+		case bool:
+			fmt.Fprintf(str, `%t`, v)
+		default:
+			fmt.Fprintf(str, `%v`, v)
+		}
+
+		if length != count {
+			count++
+			str.WriteString(", ")
+		}
+	}
+
+	str.WriteString("}\n")
+
+	if cont != nil {
+		return str.String()
+	}
+
+	return ""
+}
+
+func (s *EcsLogger) Create(info InfoLog) {
+	cont := content(info)
+
+	switch info.Type {
+	case Info:
+		s.Sub(info.Sub).Infof(cont)
+	case Error:
+		s.Sub(info.Sub).Errorf(cont)
+	case Warn:
+		s.Sub(info.Sub).Warnf(cont)
+	case Debug:
+		s.Sub(info.Sub).Debugf(cont)
+	}
 }
 
 // Stdout is a simple Logger implementation that outputs to stdout. The module name given is included in log lines.
