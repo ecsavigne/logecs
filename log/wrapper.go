@@ -89,6 +89,7 @@ type EcsLogger struct {
 	LevelMin       string
 	logger         *log.Logger
 	Path           string // path to the log file
+	runtimeCaller  int    // defautl = 3 if log is creating from Craete = 3
 }
 
 var colors = map[string]string{
@@ -117,7 +118,7 @@ func (s *EcsLogger) outputf(level, msg string, args ...any) {
 	}
 
 	tracert := ""
-	_, file, line, ok := runtime.Caller(2) // Aumenta el número si sigue mostrando `wrapper.go`
+	_, file, line, ok := runtime.Caller(s.runtimeCaller) // Aumenta el número si sigue mostrando `wrapper.go`
 	if ok {
 		dir, file := path.Split(file)
 		file = path.Join(path.Base(dir), file)
@@ -155,7 +156,7 @@ func (s *EcsLogger) Sub(mod string) Logger {
 		return s
 	}
 
-	return &EcsLogger{Mod: fmt.Sprintf("%s/%s", s.Mod, mod), Color: s.Color, min: s.min, logger: s.logger, Path: s.Path, OutPut: s.OutPut}
+	return &EcsLogger{Mod: fmt.Sprintf("%s/%s", s.Mod, mod), Color: s.Color, min: s.min, logger: s.logger, Path: s.Path, OutPut: s.OutPut, runtimeCaller: s.runtimeCaller}
 }
 
 type TYPE_LOG int
@@ -222,6 +223,8 @@ func content(info InfoLog) string {
 }
 
 func (s *EcsLogger) Create(info InfoLog) {
+	s.runtimeCaller = 3
+
 	cont := content(info)
 
 	switch info.Type {
@@ -261,6 +264,7 @@ func stdout(module string, minLevel, path string, color, output, NotStandardPut 
 		Path:           path,
 		min:            levelToInt[strings.ToUpper(minLevel)],
 		logger:         logger,
+		runtimeCaller:  2,
 	}
 }
 
