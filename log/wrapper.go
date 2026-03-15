@@ -179,6 +179,8 @@ type InfoLog struct {
 	Sub     string
 	Name    string // Name of the log ej: "event_service_logs"
 	Content map[string]any
+	// level of logs, increase for hide wrapper in logs
+	RuntimeCaller int
 }
 
 func content(info InfoLog) string {
@@ -224,6 +226,9 @@ func content(info InfoLog) string {
 
 func (s *EcsLogger) Create(info InfoLog) {
 	s.runtimeCaller = 3
+	if info.RuntimeCaller != 0 {
+		s.runtimeCaller = info.RuntimeCaller
+	}
 
 	cont := content(info)
 
@@ -237,6 +242,8 @@ func (s *EcsLogger) Create(info InfoLog) {
 	case Debug:
 		s.Sub(info.Sub).Debugf(cont)
 	}
+
+	s.runtimeCaller = 2
 }
 
 // Stdout is a simple Logger implementation that outputs to stdout. The module name given is included in log lines.
